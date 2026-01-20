@@ -1,11 +1,14 @@
 # React & Spring Boot 게시판 프로젝트
 
-PostgreSQL + Spring Boot + React를 Docker Compose로 관리하는 풀스택 게시판 애플리케이션입니다.
+Spring Boot + React를 Docker Compose로 관리하는 풀스택 게시판 애플리케이션입니다.
+
+**지원 데이터베이스**: PostgreSQL, Oracle XE (Free)
 
 ## 목차
 - [프로젝트 구조](#프로젝트-구조)
 - [사전 요구사항](#사전-요구사항)
-- [로컬 개발 환경](#로컬-개발-환경)
+- [로컬 개발 환경 (PostgreSQL)](#로컬-개발-환경-postgresql)
+- [로컬 개발 환경 (Oracle)](#로컬-개발-환경-oracle)
 - [프로덕션 배포 (Oracle Cloud)](#프로덕션-배포-oracle-cloud)
 - [API 문서 (Swagger)](#api-문서-swagger)
 - [API 엔드포인트](#api-엔드포인트)
@@ -19,7 +22,8 @@ PostgreSQL + Spring Boot + React를 Docker Compose로 관리하는 풀스택 게
 
 ```
 .
-├── docker-compose.yml          # 로컬 개발용
+├── docker-compose.yml          # 로컬 개발용 (PostgreSQL)
+├── docker-compose.oracle.yml   # 로컬 개발용 (Oracle XE)
 ├── docker-compose.prod.yml     # 프로덕션 배포용
 ├── init-db.sql                 # PostgreSQL 초기 데이터
 │
@@ -78,7 +82,7 @@ docker compose version
 
 ---
 
-## 로컬 개발 환경
+## 로컬 개발 환경 (PostgreSQL)
 
 로컬에서 개발할 때 사용합니다. React와 Spring Boot 모두 Hot Reload가 적용됩니다.
 
@@ -118,6 +122,55 @@ docker compose down
 
 # 컨테이너 + 데이터 삭제 (DB 초기화)
 docker compose down -v
+```
+
+---
+
+## 로컬 개발 환경 (Oracle)
+
+Oracle XE (Free Edition)를 사용하는 개발 환경입니다.
+
+### 실행 방법
+
+```bash
+# 1. Oracle 환경으로 실행
+docker compose -f docker-compose.oracle.yml up -d --build
+
+# 2. 로그 확인 (Oracle 초기화에 1-3분 소요)
+docker compose -f docker-compose.oracle.yml logs -f oracle
+
+# 3. 전체 로그 확인
+docker compose -f docker-compose.oracle.yml logs -f
+```
+
+### 접속 주소
+
+| 서비스 | URL | 설명 |
+|--------|-----|------|
+| React (프론트엔드) | http://localhost:3000 | 게시판 UI |
+| Spring Boot (API) | http://localhost:8080 | REST API |
+| Swagger UI | http://localhost:8080/swagger-ui/index.html | API 문서 |
+| Oracle XE | localhost:1521 | DB (board_user/board123) |
+
+### Oracle 접속 정보
+
+| 항목 | 값 |
+|------|-----|
+| Host | localhost |
+| Port | 1521 |
+| Service Name | XEPDB1 |
+| User | board_user |
+| Password | board123 |
+| JDBC URL | `jdbc:oracle:thin:@localhost:1521/XEPDB1` |
+
+### 종료
+
+```bash
+# 컨테이너 중지
+docker compose -f docker-compose.oracle.yml down
+
+# 컨테이너 + 데이터 삭제 (DB 초기화)
+docker compose -f docker-compose.oracle.yml down -v
 ```
 
 ---
@@ -332,7 +385,8 @@ curl http://localhost:8080/api/posts
 | Java | 17 | LTS 버전 |
 | Spring Boot | 3.1.5 | 웹 프레임워크 |
 | Spring Data JPA | - | ORM |
-| PostgreSQL | 15 | 데이터베이스 |
+| PostgreSQL | 15 | 데이터베이스 (기본) |
+| Oracle XE | 21 | 데이터베이스 (선택) |
 | Lombok | - | 보일러플레이트 코드 감소 |
 | SpringDoc OpenAPI | 2.2.0 | Swagger UI |
 
