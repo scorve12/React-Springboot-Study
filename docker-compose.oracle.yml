@@ -29,12 +29,10 @@ services:
     container_name: springboot_app
     restart: unless-stopped
     environment:
-      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle:1521/XEPDB1
-      SPRING_DATASOURCE_USERNAME: board_user
-      SPRING_DATASOURCE_PASSWORD: board123
-      SPRING_DATASOURCE_DRIVER_CLASS_NAME: oracle.jdbc.OracleDriver
-      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.OracleDialect
-      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      SPRING_PROFILES_ACTIVE: oracle
+      ORACLE_URL: jdbc:oracle:thin:@oracle:1521/XEPDB1
+      ORACLE_USER: board_user
+      ORACLE_PASSWORD: board123
     ports:
       - "8080:8080"
     volumes:
