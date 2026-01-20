@@ -1,0 +1,72 @@
+services:
+  # Oracle Database XE (Free Edition)
+  oracle:
+    image: gvenzl/oracle-xe:21-slim
+    container_name: oracle_db
+    restart: unless-stopped
+    environment:
+      ORACLE_PASSWORD: oracle123
+      APP_USER: board_user
+      APP_USER_PASSWORD: board123
+    ports:
+      - "1521:1521"
+    volumes:
+      - oracle_data:/opt/oracle/oradata
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "healthcheck.sh"]
+      interval: 30s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
+
+  # Spring Boot Backend
+  springboot:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile.dev
+    container_name: springboot_app
+    restart: unless-stopped
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:oracle:thin:@oracle:1521/XEPDB1
+      SPRING_DATASOURCE_USERNAME: board_user
+      SPRING_DATASOURCE_PASSWORD: board123
+      SPRING_DATASOURCE_DRIVER_CLASS_NAME: oracle.jdbc.OracleDriver
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.OracleDialect
+      SPRING_JPA_HIBERNATE_DDL_AUTO: update
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./back-end/src:/app/src
+    depends_on:
+      oracle:
+        condition: service_healthy
+    networks:
+      - app-network
+
+  # React Frontend
+  react:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    container_name: react_app
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./front-end:/app
+      - /app/node_modules
+    environment:
+      - REACT_APP_API_URL=http://localhost:8080
+    depends_on:
+      - springboot
+    networks:
+      - app-network
+
+volumes:
+  oracle_data:
+
+networks:
+  app-network:
+    driver: bridge
