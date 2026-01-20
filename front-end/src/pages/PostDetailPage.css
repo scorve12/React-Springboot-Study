@@ -1,0 +1,186 @@
+/* 상세 페이지 */
+.detail-content {
+  padding-top: 20px;
+}
+
+.post-article {
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+/* 아티클 헤더 */
+.article-header {
+  padding: 40px 40px 32px;
+  border-bottom: 1px solid #eee;
+}
+
+.article-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #1a1a2e;
+  line-height: 1.4;
+  margin-bottom: 24px;
+  word-break: keep-all;
+}
+
+.article-meta {
+  display: flex;
+  gap: 32px;
+}
+
+.meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.meta-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #999;
+  font-weight: 600;
+}
+
+.meta-value {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.meta-value.author {
+  color: #667eea;
+  font-weight: 600;
+}
+
+/* 아티클 본문 */
+.article-body {
+  padding: 40px;
+  min-height: 200px;
+}
+
+.article-body p {
+  font-size: 1.05rem;
+  line-height: 1.8;
+  color: #444;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* 아티클 푸터 */
+.article-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 40px;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.btn-secondary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  background: white;
+  color: #666;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+.btn-secondary .icon {
+  font-size: 1rem;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 12px;
+}
+
+.btn-edit {
+  padding: 12px 24px;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-edit:hover {
+  background: #5a6fd6;
+  transform: translateY(-1px);
+}
+
+.btn-delete {
+  padding: 12px 24px;
+  background: white;
+  color: #e53e3e;
+  border: 1px solid #e53e3e;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-delete:hover {
+  background: #e53e3e;
+  color: white;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+  .article-header {
+    padding: 28px 20px 24px;
+  }
+
+  .article-title {
+    font-size: 1.4rem;
+  }
+
+  .article-meta {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .article-body {
+    padding: 28px 20px;
+  }
+
+  .article-body p {
+    font-size: 1rem;
+  }
+
+  .article-footer {
+    flex-direction: column;
+    gap: 16px;
+    padding: 20px;
+  }
+
+  .btn-secondary {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .action-buttons {
+    width: 100%;
+  }
+
+  .btn-edit,
+  .btn-delete {
+    flex: 1;
+    text-align: center;
+  }
+}
