@@ -126,20 +126,30 @@ docker compose down -v
 
 ---
 
-## 로컬 개발 환경 (Oracle)
+## 로컬 개발 환경 (Oracle Cloud DB)
 
-Oracle XE (Free Edition)를 사용하는 개발 환경입니다.
+Oracle Cloud의 외부 데이터베이스에 연결하는 개발 환경입니다.
+
+### 사전 준비
+
+1. Oracle Cloud에서 Autonomous Database 또는 DB System 생성
+2. 연결 정보 확인 (호스트, 포트, 서비스명)
 
 ### 실행 방법
 
 ```bash
-# 1. Oracle 환경으로 실행
-docker compose -f docker-compose.oracle.yml up -d --build
+# 1. 환경변수 파일 생성
+cp .env.oracle.example .env.oracle
 
-# 2. 로그 확인 (Oracle 초기화에 1-3분 소요)
-docker compose -f docker-compose.oracle.yml logs -f oracle
+# 2. .env.oracle 파일을 열고 실제 Oracle Cloud DB 정보 입력
+# ORACLE_URL=jdbc:oracle:thin:@//your-host:1521/your-service
+# ORACLE_USER=board_user
+# ORACLE_PASSWORD=your-password
 
-# 3. 전체 로그 확인
+# 3. Oracle Cloud DB 환경으로 실행
+docker compose -f docker-compose.oracle.yml --env-file .env.oracle up -d --build
+
+# 4. 로그 확인
 docker compose -f docker-compose.oracle.yml logs -f
 ```
 
@@ -150,27 +160,21 @@ docker compose -f docker-compose.oracle.yml logs -f
 | React (프론트엔드) | http://localhost:3000 | 게시판 UI |
 | Spring Boot (API) | http://localhost:8080 | REST API |
 | Swagger UI | http://localhost:8080/swagger-ui/index.html | API 문서 |
-| Oracle XE | localhost:1521 | DB (board_user/board123) |
 
-### Oracle 접속 정보
+### 환경변수 설정
 
-| 항목 | 값 |
-|------|-----|
-| Host | localhost |
-| Port | 1521 |
-| Service Name | XEPDB1 |
-| User | board_user |
-| Password | board123 |
-| JDBC URL | `jdbc:oracle:thin:@localhost:1521/XEPDB1` |
+`.env.oracle` 파일에 Oracle Cloud DB 연결 정보를 설정합니다:
+
+| 변수 | 설명 | 예시 |
+|------|------|------|
+| ORACLE_URL | JDBC 연결 URL | `jdbc:oracle:thin:@//mydb.adb.ap-seoul-1.oraclecloud.com:1521/myservice_high` |
+| ORACLE_USER | DB 사용자명 | `board_user` |
+| ORACLE_PASSWORD | DB 비밀번호 | `YourPassword123` |
 
 ### 종료
 
 ```bash
-# 컨테이너 중지
 docker compose -f docker-compose.oracle.yml down
-
-# 컨테이너 + 데이터 삭제 (DB 초기화)
-docker compose -f docker-compose.oracle.yml down -v
 ```
 
 ---

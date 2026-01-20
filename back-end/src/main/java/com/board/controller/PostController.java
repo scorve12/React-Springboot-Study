@@ -58,4 +58,9 @@ public class PostController {
     public ResponseEntity<String> health() {
         return ResponseEntity.ok("OK");
     }
+
+    @GetMapping("/hello")
+    public ResponseEntity<String> hello() {
+        return ResponseEntity.ok("Hello, World!");
+    }
 }
