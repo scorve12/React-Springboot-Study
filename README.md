@@ -80,7 +80,7 @@ docker compose version
 
 ---
 
-## 로컬 개발 환경 (PostgreSQL)
+## 로컬 개발 환경
 
 로컬에서 개발할 때 사용합니다. React와 Spring Boot 모두 Hot Reload가 적용됩니다.
 
