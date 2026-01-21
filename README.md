@@ -124,59 +124,6 @@ docker compose down -v
 
 ---
 
-## 로컬 개발 환경 (Oracle Cloud DB)
-
-Oracle Cloud의 외부 데이터베이스에 연결하는 개발 환경입니다.
-
-### 사전 준비
-
-1. Oracle Cloud에서 Autonomous Database 또는 DB System 생성
-2. 연결 정보 확인 (호스트, 포트, 서비스명)
-
-### 실행 방법
-
-```bash
-# 1. 환경변수 파일 생성
-cp .env.oracle.example .env.oracle
-
-# 2. .env.oracle 파일을 열고 실제 Oracle Cloud DB 정보 입력
-# ORACLE_URL=jdbc:oracle:thin:@//your-host:1521/your-service
-# ORACLE_USER=board_user
-# ORACLE_PASSWORD=your-password
-
-# 3. Oracle Cloud DB 환경으로 실행
-docker compose -f docker-compose.oracle.yml --env-file .env.oracle up -d --build
-
-# 4. 로그 확인
-docker compose -f docker-compose.oracle.yml logs -f
-```
-
-### 접속 주소
-
-| 서비스 | URL | 설명 |
-|--------|-----|------|
-| React (프론트엔드) | http://localhost:3000 | 게시판 UI |
-| Spring Boot (API) | http://localhost:8080 | REST API |
-| Swagger UI | http://localhost:8080/swagger-ui/index.html | API 문서 |
-
-### 환경변수 설정
-
-`.env.oracle` 파일에 Oracle Cloud DB 연결 정보를 설정합니다:
-
-| 변수 | 설명 | 예시 |
-|------|------|------|
-| ORACLE_URL | JDBC 연결 URL | `jdbc:oracle:thin:@//mydb.adb.ap-seoul-1.oraclecloud.com:1521/myservice_high` |
-| ORACLE_USER | DB 사용자명 | `board_user` |
-| ORACLE_PASSWORD | DB 비밀번호 | `YourPassword123` |
-
-### 종료
-
-```bash
-docker compose -f docker-compose.oracle.yml down
-```
-
----
-
 ## 프로덕션 배포 (Oracle Cloud)
 
 Oracle Cloud Free Tier의 Arm 인스턴스(24GB RAM)에 배포하는 방법입니다.
@@ -387,8 +334,7 @@ curl http://localhost:8080/api/posts
 | Java | 17 | LTS 버전 |
 | Spring Boot | 3.1.5 | 웹 프레임워크 |
 | Spring Data JPA | - | ORM |
-| PostgreSQL | 15 | 데이터베이스 (기본) |
-| Oracle XE | 21 | 데이터베이스 (선택) |
+| PostgreSQL | 15 | 데이터베이스 |
 | Lombok | - | 보일러플레이트 코드 감소 |
 | SpringDoc OpenAPI | 2.2.0 | Swagger UI |
 
