@@ -32,7 +32,7 @@ services:
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
       # CORS 허용 origin (쉼표로 구분, 서버 IP 추가 가능)
-      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:80,http://localhost}
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:80,http://localhost,http://150.230.254.145:3000,http://150.230.254.145}
     ports:
       - "8080:8080"
     volumes:
@@ -55,6 +55,7 @@ services:
       - ./front-end:/app
       - /app/node_modules
     environment:
+      # 바뀐 API URL 환경 변수 수정
       - REACT_APP_API_URL=http://localhost:8080
     depends_on:
       - springboot
