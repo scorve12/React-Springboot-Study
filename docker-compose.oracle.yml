@@ -1,9 +1,9 @@
 services:
-  # Spring Boot Backend (Oracle Cloud DB 연결)
+  # Spring Boot Backend (프로덕션 빌드 - Oracle Cloud DB 연결)
   springboot:
     build:
       context: ./back-end
-      dockerfile: Dockerfile.dev
+      dockerfile: Dockerfile
     container_name: springboot_app
     restart: unless-stopped
     environment:
@@ -11,27 +11,34 @@ services:
       ORACLE_URL: ${ORACLE_URL:-jdbc:oracle:thin:@//your-oracle-cloud-host:1521/your-service-name}
       ORACLE_USER: ${ORACLE_USER:-board_user}
       ORACLE_PASSWORD: ${ORACLE_PASSWORD:-Produck1234!@}
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./back-end/src:/app/src
+      # JVM 메모리 최적화
+      JAVA_OPTS: -Xms128m -Xmx256m -XX:+UseSerialGC -XX:MaxMetaspaceSize=128m
+    deploy:
+      resources:
+        limits:
+          memory: 384M
+        reservations:
+          memory: 256M
     networks:
       - app-network
 
-  # React Frontend
+  # React Frontend (프로덕션 빌드 - Nginx)
   react:
     build:
       context: ./front-end
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.prod
+      args:
+        REACT_APP_API_URL: ""
     container_name: react_app
     restart: unless-stopped
     ports:
-      - "3000:3000"
-    volumes:
-      - ./front-end:/app
-      - /app/node_modules
-    environment:
-      - REACT_APP_API_URL=http://localhost:8080
+      - "80:80"
+    deploy:
+      resources:
+        limits:
+          memory: 64M
+        reservations:
+          memory: 32M
     depends_on:
       - springboot
     networks:
