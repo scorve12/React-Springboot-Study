@@ -31,6 +31,8 @@ services:
       SPRING_DATASOURCE_USERNAME: postgres
       SPRING_DATASOURCE_PASSWORD: postgres
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      # CORS 허용 origin (쉼표로 구분, 서버 IP 추가 가능)
+      CORS_ORIGINS: ${CORS_ORIGINS:-http://localhost:3000,http://localhost:80,http://localhost}
     ports:
       - "8080:8080"
     volumes:

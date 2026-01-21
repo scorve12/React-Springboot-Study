@@ -2,13 +2,12 @@
 
 Spring Boot + React를 Docker Compose로 관리하는 풀스택 게시판 애플리케이션입니다.
 
-**지원 데이터베이스**: PostgreSQL, Oracle XE (Free)
+**지원 데이터베이스**: PostgreSQL
 
 ## 목차
 - [프로젝트 구조](#프로젝트-구조)
 - [사전 요구사항](#사전-요구사항)
-- [로컬 개발 환경 (PostgreSQL)](#로컬-개발-환경-postgresql)
-- [로컬 개발 환경 (Oracle)](#로컬-개발-환경-oracle)
+- [로컬 개발 환경](#로컬-개발-환경)
 - [프로덕션 배포 (Oracle Cloud)](#프로덕션-배포-oracle-cloud)
 - [API 문서 (Swagger)](#api-문서-swagger)
 - [API 엔드포인트](#api-엔드포인트)
@@ -22,8 +21,7 @@ Spring Boot + React를 Docker Compose로 관리하는 풀스택 게시판 애플
 
 ```
 .
-├── docker-compose.yml          # 로컬 개발용 (PostgreSQL)
-├── docker-compose.oracle.yml   # 로컬 개발용 (Oracle XE)
+├── docker-compose.yml          # 로컬 개발용
 ├── docker-compose.prod.yml     # 프로덕션 배포용
 ├── init-db.sql                 # PostgreSQL 초기 데이터
 │
